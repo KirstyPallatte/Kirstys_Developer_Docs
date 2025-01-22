@@ -6,17 +6,20 @@
 `Analytics.setUserID(UUID().uuidString)`
 ## Set a property
 /// Needs a value and a key
-
-`Analytics.setUserProperty(newSelectedSeason?.rawValue, forName: "favorite_season")  // User property allows us to set a value for the anayltics eg: Index of season chosen `
+```swift 
+Analytics.setUserProperty(newSelectedSeason?.rawValue, forName: "favorite_season")  // User property allows us to set a value for the anayltics eg: Index of season chosen
+```
 ## Log an event
 // Needs a string
 
-`Analytics.logEvent("greetings", parameters: nil) // User property allows us to set a value for the anayltics eg: Index of season chosenThs allows us to see the event name inside analytics `
+```swift 
+Analytics.logEvent("greetings", parameters: nil) // User property allows us to set a value for the anayltics eg: Index of season chosenThs allows us to see the event name inside analytics
+```
 
 ### To make it easier 
 * Create an enum
 
- ```
+```swift
  enum Event: String, CaseIterable {
     case addExpenses = "AddExpenses"
  }
@@ -31,3 +34,4 @@
         
         Analytics.logEvent(event.rawValue, parameters: params)
     }
+```
