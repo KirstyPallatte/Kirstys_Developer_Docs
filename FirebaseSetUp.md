@@ -43,7 +43,23 @@ Make sure your project meets these platform version requirements:
    ```text
    https://github.com/firebase/firebase-ios-sdk
 
-## Step 4: Add Initialization Code
+ ## Step 4: Add Firebase script
+
+* Click the Build Phases tab, then complete the following steps so that Xcode can process your dSYMs and upload the files.
+* Click add > New Run Script Phase.
+* Make sure this new Run Script phase is your project's last build phase; otherwise, Crashlytics can't properly process dSYMs.
+* Expand the new Run Script section.
+` "${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run"
+* In the Input Files section, add the paths for the locations of the following files:
+`${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}
+` ${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}
+`${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist
+`$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/GoogleService-Info.plist
+`$(TARGET_BUILD_DIR)/$(EXECUTABLE_PATH)
+* If you have ENABLE_USER_SCRIPT_SANDBOXING=YES and ENABLE_DEBUG_DYLIB=YES in your project build settings, then include the following:
+`${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}.debug.dylib
+
+## Step 5: Add Initialization Code
 
 // SwiftUI
 
@@ -87,19 +103,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 }
-
-#### Once you have the dsym in the project and have configured firebase add a script
-
-* Click the Build Phases tab, then complete the following steps so that Xcode can process your dSYMs and upload the files.
-* Click add > New Run Script Phase.
-* Make sure this new Run Script phase is your project's last build phase; otherwise, Crashlytics can't properly process dSYMs.
-* Expand the new Run Script section.
-` "${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run"
-* In the Input Files section, add the paths for the locations of the following files:
-`${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}
-` ${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}
-`${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist
-`$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/GoogleService-Info.plist
-`$(TARGET_BUILD_DIR)/$(EXECUTABLE_PATH)
-* If you have ENABLE_USER_SCRIPT_SANDBOXING=YES and ENABLE_DEBUG_DYLIB=YES in your project build settings, then include the following:
-`${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}.debug.dylib
