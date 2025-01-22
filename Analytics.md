@@ -3,7 +3,9 @@
 - [Firebase Setup Documentation]([https://firebase.google.com/docs/ios/setup?authuser=0&hl=en](https://github.com/firebase/quickstart-ios)
   
 ## Set users id
-`Analytics.setUserID(UUID().uuidString)`
+```swift 
+`Analytics.setUserID(UUID().uuidString)
+```
 ## Set a property
 /// Needs a value and a key
 ```swift 
