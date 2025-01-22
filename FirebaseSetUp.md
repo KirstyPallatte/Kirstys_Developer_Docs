@@ -43,7 +43,7 @@ Make sure your project meets these platform version requirements:
    ```text
    https://github.com/firebase/firebase-ios-sdk
 
-## Step 3: Add Initialization Code
+## Step 4: Add Initialization Code
 
 // SwiftUI
 
