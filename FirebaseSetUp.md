@@ -49,7 +49,7 @@ Make sure your project meets these platform version requirements:
 * Click add > New Run Script Phase.
 * Make sure this new Run Script phase is your project's last build phase; otherwise, Crashlytics can't properly process dSYMs.
 * Expand the new Run Script section.
-` "${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run"
+  "${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run"
 * In the Input Files section, add the paths for the locations of the following files:
 `${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}
 ` ${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}
