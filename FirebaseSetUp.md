@@ -61,9 +61,8 @@ Make sure your project meets these platform version requirements:
 
 ## Step 5: Add Initialization Code
 
-// SwiftUI
-
 ```swift
+// SwiftUI
 import SwiftUI
 import FirebaseCore
 
@@ -87,7 +86,8 @@ struct YourApp: App {
         }
     }
 }
-
+```
+```swift
 // UIKit
 import UIKit
 import FirebaseCore
@@ -102,4 +102,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         return true
     }
-}
+}```
