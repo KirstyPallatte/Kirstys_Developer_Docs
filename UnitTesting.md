@@ -2,6 +2,97 @@
 
 ### How to do unit testing
 
+On the viewModel/ system (file) under test
+1.	Look at the view model you would like to test
+2.	Identify its dependencies
+3.	Identify if you want to mock the manager or the repository
+In the mock 
+1.	Create an integer to count how many times it returns a result
+2.	Create an object of the type the repository or the manager is going to return
+In the test in setup
+1.	Create an instance of the viewmodel you want to test and call it sut 
+2.	Create instances of your dependencies
+3.	Inject the instances of the dependencies 
+In the test in teardown
+1.	Set all dependencies and instances to nil
+Writing the tests
+1.	Start with setting all the variables in the Given section
+2.	Call the function you want to mock from the viewmodel
+3.	Asert the result you would like to receive
+If there is a dispatchQueue.main we need to use XCTestExpectation with a fulfill after the assert and wait(for: [expectation], timeout: 1)
+
+
+Example of test with DispatchQueue 
+class RootViewModel_Tests: XCTestCase {
+    
+    private var sut: RootViewModel!
+    private var mockAppUpdateManager: MockAppUpdateManager!
+    
+    override func setUp() {
+        sut = RootViewModel()
+        
+        // Init Dependency
+        mockAppUpdateManager = MockAppUpdateManager()
+        
+        // Inject Dependency
+        DependencyValues[\.appUpdateManager] = mockAppUpdateManager
+    }
+    
+    override func tearDown() {
+        sut = nil
+        mockAppUpdateManager = nil
+    }
+    
+    func test_noUpdate_showForceUpgradeScreenFalse() async {
+        // 1. Given
+        let expectation = XCTestExpectation(description: "App update status fetched and applied")
+        mockAppUpdateManager.fetchAppUpdateResult = AppUpdateStatus(upgradeStatusId: .noUpdate, message: "No update required")
+        // 2. When
+        await sut.fetchAppUpdateStatus()
+        DispatchQueue.main.async {
+            // 3. Then
+            XCTAssertFalse(self.sut.showForceUpgradeScreen)
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 1)
+    }
+    
+    
+    func test_soft_showForceUpgradeScreenTrue() async {
+        // 1. Given
+        let expectation = XCTestExpectation(description: "App update status fetched and applied")
+        mockAppUpdateManager.fetchAppUpdateResult = AppUpdateStatus(upgradeStatusId: .soft, message: "Soft update required")
+        // 2. When
+        await sut.fetchAppUpdateStatus()
+        DispatchQueue.main.async {
+            // 3. Then
+            XCTAssertTrue(self.sut.showForceUpgradeScreen)
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 1)
+    }
+    
+    func test_hard_showForceUpgradeScreenTrue() async {
+        // 1. Given
+        let expectation = XCTestExpectation(description: "App update status fetched and applied")
+        mockAppUpdateManager.fetchAppUpdateResult = AppUpdateStatus(upgradeStatusId: .force, message: "Hard update required")
+        // 2. When
+        await sut.fetchAppUpdateStatus()
+        DispatchQueue.main.async {
+            // 3. Then
+            XCTAssertTrue(self.sut.showForceUpgradeScreen)
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 1)
+    }
+}
+
+
+
+
+![image](https://github.com/user-attachments/assets/4f37811e-939d-4fb6-9a72-f0a79ed4ade8)
+
+
 ```swift
 import Foundation
 @testable import Tracker // Name of your target
