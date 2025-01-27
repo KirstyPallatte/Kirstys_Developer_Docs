@@ -201,7 +201,7 @@ func payment() throws {
 ### Testing how many times a function was called
 * The Confirmation object has a built-in counter that can be used by passing the expectedCount parameter.
 
-  ```swift
+```swift
 @Test func fetchJobDetails() async {
   jobServiceSpy.serviceToBeReturned = .success(.fixture(jobNo: "0"))
 
@@ -213,7 +213,7 @@ func payment() throws {
   #expect(jobServiceSpy.jobDetails.jobNo == "12345")
   #expect(sut.jobData?.jobNo == "0")
 }
-  ```
+```
 
 ### Dealing with Optionals
 
